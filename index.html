@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="https://miller.how/images/favicon.png" type="image/png">
+  <title>nick.miller</title>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Atkinson Hyperlegible', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #100F0F;
+      color: #CECDC3;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      max-width: 100%;
+      padding: 1rem;
+      box-sizing: border-box;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #ddd;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      margin: 0 1rem;
+      text-decoration: none;
+      color: #CECDC3;
+      font-weight: 600;
+    }
+
+    .profile {
+      text-align: center;
+      margin: 1rem 0;
+    }
+
+    .profile img {
+      width: 100px;
+      border-radius: 50%;
+    }
+
+    .profile h2 {
+      margin: 1rem 0 0.5rem;
+    }
+
+    .profile p {
+      color: #CECDC3;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .buttons button {
+      display: block;
+      width: 100%;
+      margin: 0.5rem 0;
+      padding: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      background-color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .split-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .left-panel, .right-panel {
+      flex: 1 1 100%;
+    }
+
+@media (min-width: 768px) {
+  .left-panel {
+    flex: 2; /* more space */
+  }
+  .right-panel {
+    flex: 1; /* less space */
+  }
+}
+
+
+    .feed-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      list-style: none;
+      padding: 0;
+    }
+
+    .feed-list li {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .feed-list h2 {
+      font-size: 1rem;
+      margin: 0;
+      padding: 10px;
+    }
+
+    .feed-list a {
+      text-decoration: none;
+      color: #262626;
+    }
+
+    .feed-list div img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .feed-list p {
+      padding: 5px;
+      font-size: 0.8rem;
+      color: #888;
+    }
+
+#feed2 {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.letterboxd-item {
+  margin-bottom: 0 rem;
+}
+
+.letterboxd-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  background: transparent;
+  border-radius: 10px;
+  padding: 0.75rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0);
+}
+
+.poster-thumb {
+  width: 60px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.movie-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.title-line {
+  font-size: 1rem;
+  margin-bottom: 0.2rem;
+}
+
+.title-line .year {
+  font-weight: normal;
+  color: #cecdc3;
+  font-size: 0.9rem;
+}
+
+.watched-date {
+  font-size: 0.85rem;
+  color: #cecdc3;
+  margin-bottom: 0.25rem;
+}
+
+.stars {
+  font-size: 1rem;
+  color: #cecdc3; /* Optional: color stars green like screenshot */
+}
+    #currently-reading {
+      margin-top: 1em;
+    }
+
+.book {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 12px;
+  padding: 8px;
+  border-radius: 6px;
+  background: #111;
+}
+
+.poster-thumb {
+  width: 60px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.book-meta {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.book-title {
+  font-weight: bold;
+  flex: 1;
+}
+
+.book-author {
+  text-align: right;
+  white-space: nowrap;
+}
+#gallery {
+  color: #ce5d97; 
+}
+#steam {
+  color: #4385be; 
+}
+#letterboxd {
+  color: #879a39; 
+}
+#hardcover {
+  color: #d14d41; 
+}
+.section-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #4385be; 
+}
+
+.section-heading .icon {
+  width: 1.25em;
+  height: 1.25em;
+  flex-shrink: 0;
+  vertical-align: middle;
+  display: inline-block;
+  color: #4385be; 
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div><strong><i class="fas fa-link"></i>nick.miller</strong></div>
+        <nav class="top-nav">
+        <a href="https://nick.miller.how">home</a>
+    <a href="/blog.html">blog</a>
+  </nav>
+    </header>
+
+    <div class="profile">
+      <img src="https://miller.how/images/me.png" alt="me">
+      <h2>nick.miller</h2>
+<div id="quote-box"></div>    
+</div>
+
+    <div class="split-container">
+      <div class="left-panel">
+<h2 class="section-heading" id="gallery">
+  <img src="https://miller.how/icons/pixelfed.svg" alt="Pixelfed logo" class="icon" />
+  gallery
+</h2>        <ul id="feed" class="feed-list"></ul>
+      </div>
+      <div class="right-panel">
+<h2 class="section-heading" id="steam">
+  <img src="https://miller.how/icons/steam.svg" alt="Steam logo" class="icon" />
+  steam
+</h2>
+        <iframe src="https://gamer2810.github.io/steam-miniprofile/?accountId=76561198047132548" width="100%" height="250" style="border:none;"></iframe>
+<h2 class="section-heading" id="letterboxd">
+  <img src="https://miller.how/icons/letterboxd.svg" alt="Letterboxd logo" class="icon" />
+  letterboxd
+</h2>
+<ul id="feed2" class="letterboxd-list"></ul>
+<h2 class="section-heading" id="hardcover">
+  <img src="https://miller.how/icons/hardcover.svg" alt="Hardcover logo" class="icon" />
+  currently reading
+</h2>
+<div id="currently-reading">Loading...</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const feedUrl = encodeURIComponent("https://pixelfed.social/users/neetly.atom");
+    const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${feedUrl}`;
+
+    fetch(apiUrl)
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById("feed");
+
+        data.items.slice(0, 12).forEach(item => {
+          const li = document.createElement("li");
+          li.innerHTML = `
+            <h2><a href="${item.link}" target="_blank">${item.title}</a></h2>
+            <div>${item.content}</div>
+            <p><small>By ${item.author} on ${new Date(item.pubDate).toLocaleDateString()}</small></p>
+          `;
+          container.appendChild(li);
+        });
+      });
+  </script>
+
+<script>
+const feedUrl2 = encodeURIComponent("https://letterboxd.com/sewardsfolly/rss/");
+const apiUrl2 = `https://api.rss2json.com/v1/api.json?rss_url=${feedUrl2}`;
+
+fetch(apiUrl2)
+  .then(res => res.json())
+  .then(data => {
+    const container2 = document.getElementById("feed2");
+
+    data.items.slice(0, 3).forEach(item => {
+      const li = document.createElement("li");
+      li.classList.add("letterboxd-item");
+
+      // Extract image
+      const imgMatch = item.description.match(/<img[^>]+src="([^">]+)"/);
+      const imgSrc = imgMatch ? imgMatch[1] : "";
+
+      // Extract text content
+      const tempDiv = document.createElement("div");
+      tempDiv.innerHTML = item.description;
+      const textContent = tempDiv.textContent || "";
+
+      // Extract date and stars
+      const lines = textContent.trim().split("\n").map(line => line.trim()).filter(Boolean);
+      const watchedDate = lines[0];
+      const starRating = lines[1] || "";
+
+      // Extract year from title if present
+      const titleMatch = item.title.match(/^(.*) \((\\d{4})\)$/);
+      const movieTitle = titleMatch ? titleMatch[1] : item.title;
+      const movieYear = titleMatch ? titleMatch[2] : "";
+
+      li.innerHTML = `
+        <div class="letterboxd-card">
+          <img src="${imgSrc}" alt="${movieTitle}" class="poster-thumb" />
+          <div class="movie-info">
+            <div class="title-line"><strong>${movieTitle}</strong> <span class="year">${movieYear}</span></div>
+            <div class="watched-date">${watchedDate}</div>
+            <div class="stars">${starRating}</div>
+          </div>
+        </div>
+      `;
+      container2.appendChild(li);
+    });
+  });
+</script>
+<script src="quotes.js"></script>
+<script>
+  // Wait until DOM is ready
+  document.addEventListener("DOMContentLoaded", () => {
+    const quoteBox = document.getElementById("quote-box");
+
+    const randomIndex = Math.floor(Math.random() * quotes.length);
+    const quote = quotes[randomIndex];
+
+    quoteBox.innerHTML = `
+      <div class="quote-card">
+        <p> ${quote.quote} - <strong>${quote.character}</strong></p>
+      </div>
+    `;
+  });
+</script>
+  <script>
+    async function loadBooks() {
+      try {
+        const res = await fetch('https://hardcovercurrentlyreading.netlify.app/.netlify/functions/hardcover-currently-reading');
+        const books = await res.json();
+
+        const container = document.getElementById('currently-reading');
+        container.innerHTML = '';
+
+        books.forEach(({ book }) => {
+          const authors = book.contributions.map(c => c.author.name).join(', ');
+
+          const el = document.createElement('div');
+          el.className = 'book';
+
+          el.innerHTML = `
+            <img src="${book.image?.url}" alt="Cover of ${book.title}" class="poster-thumb" />
+            <span class="book-title">${book.title}</span>
+            <span class="book-author">${authors}</span>
+          `;
+
+          container.appendChild(el);
+        });
+      } catch (e) {
+        console.error('Error loading books:', e);
+        document.getElementById('currently-reading').textContent = 'Error loading books';
+      }
+    }
+
+    loadBooks();
+  </script>
+
+</body>
+</html>
