@@ -375,22 +375,6 @@ fetch(apiUrl2)
     });
   });
 </script>
-<script src="quotes.js"></script>
-<script>
-  // Wait until DOM is ready
-  document.addEventListener("DOMContentLoaded", () => {
-    const quoteBox = document.getElementById("quote-box");
-
-    const randomIndex = Math.floor(Math.random() * quotes.length);
-    const quote = quotes[randomIndex];
-
-    quoteBox.innerHTML = `
-      <div class="quote-card">
-        <p> ${quote.quote} - <strong>${quote.character}</strong></p>
-      </div>
-    `;
-  });
-</script>
   <script>
     async function loadBooks() {
       try {
@@ -421,6 +405,21 @@ fetch(apiUrl2)
     }
 
     loadBooks();
+  </script>
+    <script src="quotes.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const quoteBox = document.getElementById("quote-box");
+
+      const randomIndex = Math.floor(Math.random() * quotes.length);
+      const quote = quotes[randomIndex];
+
+      quoteBox.innerHTML = `
+        <div class="quote-card">
+          <p>${quote.quote} – <strong>${quote.character}</strong></p>
+        </div>
+      `;
+    });
   </script>
 
 </body>
