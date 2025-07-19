@@ -395,7 +395,7 @@ interface Factory
 {
     static function _factory();
 }
-
+ 
 abstract class URI extends BaseURI implements Factory
 {
     abstract function test();
