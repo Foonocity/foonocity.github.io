@@ -242,10 +242,6 @@
 
 #gallery {
   color: #ce5d97;
-  text-decoration: none;      /* removes underline */
-  color: inherit;             /* uses the surrounding text color */
-  transition: color 0.3s ease;
-  color: #ce5d97;               /* changes color to white on hover */
 }
 #steam {
   color: #4385be; 
@@ -277,6 +273,15 @@
   display: inline-block;
   color: #4385be; 
 }
+a.heading-link {
+  text-decoration: none;      /* removes underline */
+  color: inherit;             /* uses the surrounding text color */
+  transition: color 0.3s ease;
+}
+
+a.heading-link:hover {
+  color: white;               /* changes color to white on hover */
+}
 
   </style>
 </head>
@@ -298,7 +303,7 @@
 
     <div class="split-container">
       <div class="left-panel">
-<a href="https://pixelfed.social/neetly" target="_blank" rel="noopener noreferrer">
+<a href="https://pixelfed.social/neetly" class="heading-link">
 <h2 class="section-heading" id="gallery">
   <img src="/icons/pixelfed.svg" alt="Pixelfed logo" class="icon" />
   gallery
@@ -307,14 +312,14 @@
   <ul id="feed" class="feed-list"></ul>
       </div>
       <div class="right-panel">
-<a href="https://steamcommunity.com/id/foonocity/" target="_blank" rel="noopener noreferrer">
+<a href="https://steamcommunity.com/id/foonocity/" class="heading-link"">
 <h2 class="section-heading" id="steam">
   <img src="/icons/steam.svg" alt="Steam logo" class="icon" />
   steam
 </h2>
     </a>
         <iframe src="https://gamer2810.github.io/steam-miniprofile/?accountId=76561198047132548" width="100%" height="250" style="border:none;"></iframe>
-<a href="https://dreamingspanish.com" target="_blank" rel="noopener noreferrer">
+<a href="https://dreamingspanish.com" class="heading-link">
 <h2 class="section heading" id="dreamingspanish">☁️ dreaming spanish</h2>
 </a>
 <div class="stats-row">
@@ -331,14 +336,14 @@
     <p id="currentStreak">--</p>
   </div>
 </div>
-<a href="https://letterboxd.com/sewardsfolly/" target="_blank" rel="noopener noreferrer">
+<a href="https://letterboxd.com/sewardsfolly/" class="heading-link">
 <h2 class="section-heading" id="letterboxd">
   <img src="/icons/letterboxd.svg" alt="Letterboxd logo" class="icon" />
   letterboxd
 </h2>
 </a>
 <ul id="feed2" class="letterboxd-list"></ul>
-<a href="https://hardcover.app/@hannibalcrossing" target="_blank" rel="noopener noreferrer">
+<a href="https://hardcover.app/@hannibalcrossing" class="heading-link">
 <h2 class="section-heading" id="hardcover">
   <img src="/icons/hardcover.svg" alt="Hardcover logo" class="icon" />
   currently reading
