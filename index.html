@@ -240,6 +240,9 @@
 #hardcover {
   color: #d14d41; 
 }
+#dreamingspanish {
+  color: #da702c; 
+}
 .section-heading {
   display: flex;
   align-items: center;
@@ -302,7 +305,27 @@
       </div>
     </div>
   </div>
-
+<div class="p-4">
+  <h2 class="section heading" is="dreamingspanish">☁️ dreaming spanish</h2>
+  <div class="flex gap-6 text-center">
+    <div>
+      <p>Total Hours Watched</p>
+      <p id="totalHours">--</p>
+    </div>
+    <div>
+      <p>Average Minutes/Day</p>
+      <p id="avgMinutes">--</p>
+    </div>
+    <div>
+      <p>Current Streak</p>
+      <p id="currentStreak">--</p>
+    </div>
+    <div>
+      <p>Longest Streak</p>
+      <p id="longestStreak">--</p>
+    </div>
+  </div>
+</div>
   <script>
     const feedUrl = encodeURIComponent("https://pixelfed.social/users/neetly.atom");
     const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${feedUrl}`;
@@ -416,6 +439,85 @@ fetch(apiUrl2)
       `;
     });
   </script>
+<script>
+(async () => {
+  try {
+    const res = await fetch('https://clever-faloodeh-c956c7.netlify.app/.netlify/functions/getStats');
+    const result = await res.json();
 
+    const data = result.daily;
+    const externalSeconds = result.externalSeconds || 0;
+
+    if (!Array.isArray(data) || data.length === 0) throw new Error('No valid data received');
+
+    // Sort and map by date
+    data.sort((a, b) => new Date(a.date) - new Date(b.date));
+    const dateMap = {};
+    data.forEach(item => {
+      const date = new Date(item.date).toISOString().split('T')[0];
+      dateMap[date] = item;
+    });
+
+    // Fill all missing dates
+    const start = new Date(data[0].date);
+    const end = new Date(data[data.length - 1].date);
+    const allDates = [];
+
+    for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+      const iso = d.toISOString().split('T')[0];
+      allDates.push({
+        date: iso,
+        timeSeconds: dateMap[iso]?.timeSeconds || 0,
+        goalReached: !!dateMap[iso]?.goalReached,
+      });
+    }
+
+    // Total and average
+    const dailySeconds = allDates.reduce((sum, d) => sum + d.timeSeconds, 0);
+    const totalSeconds = dailySeconds + externalSeconds;
+    const totalDays = allDates.length;
+    const totalHours = (totalSeconds / 3600).toFixed(1);
+    const avgMinutes = (dailySeconds / 60 / totalDays).toFixed(1);
+
+    // Longest streak
+let current = 0;
+let longest = 0;
+let streak = 0;
+
+allDates.forEach(d => {
+  if (d.timeSeconds > 0) {
+    streak++;
+    longest = Math.max(longest, streak);
+  } else {
+    streak = 0;
+  }
+});
+
+// Recalculate current streak (walk backward)
+current = 0;
+for (let i = allDates.length - 1; i >= 0; i--) {
+  const d = allDates[i];
+  const today = new Date().toISOString().split('T')[0];
+
+  if (d.date > today) continue; // skip future dates
+
+  if (d.timeSeconds > 0) {
+    current++;
+  } else {
+    break;
+  }
+}
+
+    // ✅ Update DOM
+    document.getElementById('totalHours').textContent = totalHours;
+    document.getElementById('avgMinutes').textContent = avgMinutes;
+    document.getElementById('currentStreak').textContent = current + ' days';
+    document.getElementById('longestStreak').textContent = longest + ' days';
+
+  } catch (err) {
+    console.error('⚠️ Error processing stats:', err);
+  }
+})();
+</script>
 </body>
 </html>
