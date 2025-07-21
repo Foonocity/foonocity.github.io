@@ -228,6 +228,17 @@
   text-align: right;
   white-space: nowrap;
 }
+ .stats-row {
+  display: flex;
+  justify-content: space-around; /* or use gap if preferred */
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.stats-row > div {
+  flex: 1;
+}
+
 #gallery {
   color: #ce5d97; 
 }
@@ -292,6 +303,25 @@
   steam
 </h2>
         <iframe src="https://gamer2810.github.io/steam-miniprofile/?accountId=76561198047132548" width="100%" height="250" style="border:none;"></iframe>
+<h2 class="section heading" id="dreamingspanish">☁️ dreaming spanish</h2>
+<div class="stats-row">
+  <div>
+    <p>Total Hours Watched</p>
+    <p id="totalHours">--</p>
+  </div>
+  <div>
+    <p>Average Minutes/Day</p>
+    <p id="avgMinutes">--</p>
+  </div>
+  <div>
+    <p>Current Streak</p>
+    <p id="currentStreak">--</p>
+  </div>
+  <div>
+    <p>Longest Streak</p>
+    <p id="longestStreak">--</p>
+  </div>
+</div>
 <h2 class="section-heading" id="letterboxd">
   <img src="/icons/letterboxd.svg" alt="Letterboxd logo" class="icon" />
   letterboxd
@@ -302,26 +332,6 @@
   currently reading
 </h2>
 <div id="currently-reading">Loading...</div>
-<h2 class="section heading" id="dreamingspanish">☁️ dreaming spanish</h2>
-  <div class="flex gap-6 text-center">
-    <div>
-      <p>Total Hours Watched</p>
-      <p id="totalHours">--</p>
-    </div>
-    <div>
-      <p>Average Minutes/Day</p>
-      <p id="avgMinutes">--</p>
-    </div>
-    <div>
-      <p>Current Streak</p>
-      <p id="currentStreak">--</p>
-    </div>
-    <div>
-      <p>Longest Streak</p>
-      <p id="longestStreak">--</p>
-    </div>
-  </div>
-</div>
       </div>
     </div>
   </div>
