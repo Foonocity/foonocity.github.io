@@ -274,15 +274,14 @@
   color: #4385be; 
 }
 a.heading-link {
-  text-decoration: none;      /* removes underline */
-  color: inherit;             /* uses the surrounding text color */
-  transition: color 0.3s ease;
+  text-decoration: none;
+  color: inherit;
+  transition: text-shadow 0.3s ease;
 }
 
 a.heading-link:hover {
-  color: white;               /* changes color to white on hover */
+  text-shadow: 0 0 8px currentColor; /* glow effect in current text color */
 }
-
   </style>
 </head>
 <body>
