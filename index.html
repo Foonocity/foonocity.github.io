@@ -281,15 +281,6 @@ a.heading-link {
 a.heading-link:hover {
   text-shadow: 0 0 8px currentColor; /* glow effect in current text color */
 }
-.collapsible-content {
-  overflow: hidden;
-  transition: max-height 0.4s ease;
-  max-height: 0;
-}
-
-.collapsible-content.show {
-  max-height: 500px; /* adjust as needed */
-}
   </style>
 </head>
 <body>
@@ -311,7 +302,7 @@ a.heading-link:hover {
     <div class="split-container">
       <div class="left-panel" id="dreamingContent">
 <a href="#" class="heading-link" onclick="toggleSection('dreamingContent')">
-  <h2 class="section-heading heading-toggle" onclick="toggleSection('dreamingContent')" id="gallery">
+  <h2 class="section-heading" id="gallery">
   <img src="/icons/pixelfed.svg" alt="Pixelfed logo" class="icon" />
   gallery
 </h2>
