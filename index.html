@@ -281,8 +281,14 @@ a.heading-link {
 a.heading-link:hover {
   text-shadow: 0 0 8px currentColor; /* glow effect in current text color */
 }
-#dreamingContent {
-  display: none;
+.collapsible-content {
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+  max-height: 0;
+}
+
+.collapsible-content.show {
+  max-height: 500px; /* adjust as needed */
 }
   </style>
 </head>
@@ -305,7 +311,7 @@ a.heading-link:hover {
     <div class="split-container">
       <div class="left-panel" id="dreamingContent">
 <a href="#" class="heading-link" onclick="toggleSection('dreamingContent')">
-  <h2 class="section-heading" id="gallery">
+  <h2 class="section-heading heading-toggle" onclick="toggleSection('dreamingContent')" id="gallery">
   <img src="/icons/pixelfed.svg" alt="Pixelfed logo" class="icon" />
   gallery
 </h2>
@@ -549,11 +555,16 @@ for (let i = allDates.length - 1; i >= 0; i--) {
   }
 })();
 </script>
-  <script>
+<script>
   function toggleSection(id) {
     const section = document.getElementById(id);
     section.style.display = (section.style.display === "none") ? "block" : "none";
   }
+
+  // Optional: hide content on load
+  document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("dreamingContent").style.display = "none";
+  });
 </script>
 </body>
 </html>
