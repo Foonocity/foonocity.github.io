@@ -301,13 +301,12 @@ a.heading-link:hover {
 
     <div class="split-container">
       <div class="left-panel">
-<a href="#" class="heading-link" onclick="toggleSection('dreamingContent')">
-  <h2 class="section-heading" id="gallery">
-  <img src="/icons/pixelfed.svg" alt="Pixelfed logo" class="icon" />
+  <h2 class="section-heading" id="gallery" onclick="toggleFeed()" style="cursor: pointer;">
+    <img src="/icons/pixelfed.svg" alt="Pixelfed logo" class="icon" />
   gallery
 </h2>
    </a> 
-  <ul id="feed" class="feed-list"></ul>
+  <ul id="feed" class="feed-list" style="display: none;"></ul>
       </div>
       <div class="right-panel">
 <a href="#" class="heading-link" onclick="toggleSection('dreamingContent')">
@@ -545,6 +544,12 @@ for (let i = allDates.length - 1; i >= 0; i--) {
     console.error('⚠️ Error processing stats:', err);
   }
 })();
+</script>
+  <script>
+  function toggleFeed() {
+    const feed = document.getElementById("feed");
+    feed.style.display = (feed.style.display === "none" || feed.style.display === "") ? "block" : "none";
+  }
 </script>
 </body>
 </html>
