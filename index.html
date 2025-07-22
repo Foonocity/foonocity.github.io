@@ -464,85 +464,95 @@ fetch(apiUrl2)
       `;
     });
   </script>
-<script>
-(async () => {
-  try {
-    const res = await fetch('https://clever-faloodeh-c956c7.netlify.app/.netlify/functions/getStats');
-    const result = await res.json();
+  <script>
+  const todayKey = 'dsStats-' + new Date().toISOString().split('T')[0];
+  const cached = localStorage.getItem(todayKey);
 
-    const data = result.daily;
-    const externalSeconds = result.externalSeconds || 0;
-
-    if (!Array.isArray(data) || data.length === 0) throw new Error('No valid data received');
-
-    // Sort and map by date
-    data.sort((a, b) => new Date(a.date) - new Date(b.date));
-    const dateMap = {};
-    data.forEach(item => {
-      const date = new Date(item.date).toISOString().split('T')[0];
-      dateMap[date] = item;
-    });
-
-    // Fill all missing dates
-    const start = new Date(data[0].date);
-    const end = new Date(data[data.length - 1].date);
-    const allDates = [];
-
-    for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-      const iso = d.toISOString().split('T')[0];
-      allDates.push({
-        date: iso,
-        timeSeconds: dateMap[iso]?.timeSeconds || 0,
-        goalReached: !!dateMap[iso]?.goalReached,
-      });
-    }
-
-    // Total and average
-    const dailySeconds = allDates.reduce((sum, d) => sum + d.timeSeconds, 0);
-    const totalSeconds = dailySeconds + externalSeconds;
-    const totalDays = allDates.length;
-    const totalHours = (totalSeconds / 3600).toFixed(1);
-    const avgMinutes = (dailySeconds / 60 / totalDays).toFixed(1);
-
-    // Longest streak
-let current = 0;
-let longest = 0;
-let streak = 0;
-
-allDates.forEach(d => {
-  if (d.timeSeconds > 0) {
-    streak++;
-    longest = Math.max(longest, streak);
+  if (cached) {
+    const stats = JSON.parse(cached);
+    document.getElementById('totalHours').textContent = stats.totalHours;
+    document.getElementById('avgMinutes').textContent = stats.avgMinutes;
+    document.getElementById('currentStreak').textContent = stats.currentStreak + ' days';
+    document.getElementById('longestStreak').textContent = stats.longestStreak + ' days';
   } else {
-    streak = 0;
+    fetchAndUpdateStats(); // Calls the full async fetch & render function
   }
-});
-
-// Recalculate current streak (walk backward)
-current = 0;
-for (let i = allDates.length - 1; i >= 0; i--) {
-  const d = allDates[i];
-  const today = new Date().toISOString().split('T')[0];
-
-  if (d.date > today) continue; // skip future dates
-
-  if (d.timeSeconds > 0) {
-    current++;
-  } else {
-    break;
-  }
-}
-
-    // ✅ Update DOM
-    document.getElementById('totalHours').textContent = totalHours;
-    document.getElementById('avgMinutes').textContent = avgMinutes;
-    document.getElementById('currentStreak').textContent = current + ' days';
-    document.getElementById('longestStreak').textContent = longest + ' days';
-
-  } catch (err) {
-    console.error('⚠️ Error processing stats:', err);
-  }
-})();
 </script>
+<script>
+  async function fetchAndUpdateStats() {
+    try {
+      const res = await fetch('https://clever-faloodeh-c956c7.netlify.app/.netlify/functions/getStats');
+      const result = await res.json();
+      const data = result.daily;
+      const externalSeconds = result.externalSeconds || 0;
+
+      if (!Array.isArray(data) || data.length === 0) throw new Error('No data received');
+
+      // Process data
+      data.sort((a, b) => new Date(a.date) - new Date(b.date));
+      const dateMap = {};
+      data.forEach(item => {
+        const date = new Date(item.date).toISOString().split('T')[0];
+        dateMap[date] = item;
+      });
+
+      const start = new Date(data[0].date);
+      const end = new Date(data[data.length - 1].date);
+      const allDates = [];
+
+      for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+        const iso = d.toISOString().split('T')[0];
+        allDates.push({
+          date: iso,
+          timeSeconds: dateMap[iso]?.timeSeconds || 0,
+        });
+      }
+
+      const dailySeconds = allDates.reduce((sum, d) => sum + d.timeSeconds, 0);
+      const totalSeconds = dailySeconds + externalSeconds;
+      const totalHours = (totalSeconds / 3600).toFixed(1);
+      const avgMinutes = (dailySeconds / 60 / allDates.length).toFixed(1);
+
+      // Streaks: just based on watchtime
+      let current = 0, longest = 0, streak = 0;
+      allDates.forEach(d => {
+        if (d.timeSeconds > 0) {
+          streak++;
+          longest = Math.max(longest, streak);
+        } else {
+          streak = 0;
+        }
+      });
+
+      const today = new Date().toISOString().split('T')[0];
+      current = 0;
+      for (let i = allDates.length - 1; i >= 0; i--) {
+        const d = allDates[i];
+        if (d.date > today) continue;
+        if (d.timeSeconds > 0) current++;
+        else break;
+      }
+
+      // Save to localStorage so we don’t refetch today
+      const todayKey = 'dsStats-' + today;
+      localStorage.setItem(todayKey, JSON.stringify({
+        totalHours,
+        avgMinutes,
+        currentStreak: current,
+        longestStreak: longest,
+      }));
+
+      // Update DOM
+      document.getElementById('totalHours').textContent = totalHours;
+      document.getElementById('avgMinutes').textContent = avgMinutes;
+      document.getElementById('currentStreak').textContent = current + ' days';
+      document.getElementById('longestStreak').textContent = longest + ' days';
+
+    } catch (err) {
+      console.error('⚠️ Error fetching stats:', err);
+    }
+  }
+</script>
+
 </body>
 </html>
